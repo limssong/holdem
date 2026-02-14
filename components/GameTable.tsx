@@ -1,6 +1,6 @@
 'use client';
 
-import { GameState, Player } from '@/types/game';
+import { GameState, Player, BettingAction } from '@/types/game';
 import PlayerSeat from './PlayerSeat';
 import CommunityCards from './CommunityCards';
 import BettingControls from './BettingControls';
@@ -8,7 +8,7 @@ import WinnerCelebration from './WinnerCelebration';
 
 interface GameTableProps {
   gameState: GameState;
-  onBettingAction: (action: string, amount?: number) => void;
+  onBettingAction: (action: BettingAction, amount?: number) => void;
   onNextGame: () => void;
 }
 
