@@ -11,16 +11,9 @@ interface BettingControlsProps {
 export default function BettingControls({ gameState, onAction }: BettingControlsProps) {
   const humanPlayer = gameState.players.find(p => p.isHuman);
   
-  if (!humanPlayer) return null;
-  
-  const callAmount = gameState.currentBet - humanPlayer.currentBet;
-  // 플랍/턴/리버 이후에는 currentBet이 0이므로 체크 가능
-  const canCheck = callAmount === 0 || (gameState.phase !== 'preflop' && gameState.currentBet === 0);
-  const canCall = callAmount > 0 && humanPlayer.chips >= callAmount;
-  const canRaise = humanPlayer.chips > callAmount;
-  
   // 레이즈 금액 기본값: 콜 금액
   const minRaise = gameState.bigBlind;
+  const callAmount = humanPlayer ? gameState.currentBet - humanPlayer.currentBet : 0;
   const [raiseAmount, setRaiseAmount] = useState(callAmount > 0 ? callAmount : minRaise);
   
   // 콜 금액이 변경될 때마다 레이즈 금액 업데이트
@@ -32,6 +25,13 @@ export default function BettingControls({ gameState, onAction }: BettingControls
       setRaiseAmount(minRaise);
     }
   }, [callAmount, minRaise]);
+  
+  if (!humanPlayer) return null;
+  
+  // 플랍/턴/리버 이후에는 currentBet이 0이므로 체크 가능
+  const canCheck = callAmount === 0 || (gameState.phase !== 'preflop' && gameState.currentBet === 0);
+  const canCall = callAmount > 0 && humanPlayer.chips >= callAmount;
+  const canRaise = humanPlayer.chips > callAmount;
   
   return (
     <div className="bg-gray-900 bg-opacity-95 rounded-lg p-6 flex flex-col gap-4 items-center">
