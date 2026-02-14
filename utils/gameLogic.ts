@@ -1,4 +1,4 @@
-import { GameState, Player, BettingAction, Card } from '@/types/game';
+import { GameState, Player, BettingAction, Card, GamePhase } from '@/types/game';
 import { createDeck, dealCard } from './cards';
 import { evaluateHand, compareHands } from './handEvaluator';
 
